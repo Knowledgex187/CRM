@@ -13,3 +13,7 @@ def login(request):
 
 def signup(request):
     pass
+
+
+def logout(request):
+    pass
