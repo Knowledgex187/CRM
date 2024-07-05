@@ -1,0 +1,117 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Edit Profile{% endblock %}</title>
+  </head>
+  <body>
+    {% block content %}
+
+    <div class="container col-6">
+        <div class="header">
+            <h1 class="text-center mt-5">Edit Profile</h1>
+        </div>
+        <form action="POST">
+            <div class="form-group">
+                <label for="email"> Email Address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Enter Email" />
+              </div>
+              <div class="form-group">
+                <label for="firstName"> First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="Enter First Name"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="middleName"> Middle Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="middleName"
+                  name="middleName"
+                  placeholder="Enter Middle Name" />
+              </div>
+              <div class="form-group">
+                <label for="lastName"> Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Enter Last Name"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="phoneNumber"> Phone Number</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  placeholder="Enter Phone Number"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="streetAddress"> Street Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="streetAddress"
+                  name="streetAddress"
+                  placeholder="Enter Address"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="city">City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="city"
+                  name="city"
+                  placeholder="Enter City"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="post_code_or_zip"> Zip / Post Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="post_code_or_zip"
+                  name="post_code_or_zip"
+                  placeholder="Enter Zip/Post Code"
+                  required />
+              </div>
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="country"
+                  name="country"
+                  placeholder="Enter Country"
+                  required />
+              </div>
+              <br />
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <hr>
+              <div class="d-grid gap-2 col-6 mx-auto">
+              <button name="delete-account" type="submit" class="btn btn-danger mt-5">Delete Account</button>
+            </div>
+        </form>
+    <div class="footer text-center my-5">
+      <p>&copy; 2023 Banking App. All rights reserved.</p>
+    </div>
+    {% endblock %}
+  </body>
+</html>

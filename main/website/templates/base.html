@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,7 +26,7 @@
           data-bs-target="#navbar">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbar">
+        <div class="collapse navbar-collapse justify-content-end" id="navbar">
           <div class="navbar-nav">
             <!-- Nav link for Logout -->
             <a class="nav-item nav-link" id="logout" href="{% url 'logout' %}"
@@ -38,6 +39,16 @@
             <!-- Nav link for Sign Up -->
             <a class="nav-item nav-link" id="sign-up" href="{% url 'signup' %}"
               >Sign Up</a
+            >
+            <a class="nav-item nav-link" id="accounts" href="#">Accounts</a>
+            <a class="nav-item nav-link" id="transactions" href="#"
+              >Transactions</a
+            >
+            <a class="nav-item nav-link" id="index" href="{% url 'profile' %}"
+              >Profile</a
+            >
+            <a class="nav-item nav-link" id="addCustomer" href="{% url 'add' %}"
+              >Add Customer</a
             >
           </div>
         </div>

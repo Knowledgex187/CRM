@@ -1,0 +1,127 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Add Customer{% endblock %}</title>
+  </head>
+  <body>
+    {% block content %}
+
+    <form class="justify-content-center container mt-5 col-6" method="POST">
+      <h3 class="text-center">Add Customer</h3>
+      <div class="form-group">
+        <label for="email"> Email Address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter Email" />
+      </div>
+      <div class="form-group">
+        <label for="firstName"> First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          placeholder="Enter First Name"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="middleName"> Middle Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="middleName"
+          name="middleName"
+          placeholder="Enter Middle Name" />
+      </div>
+      <div class="form-group">
+        <label for="lastName"> Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          name="lastName"
+          placeholder="Enter Last Name"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="DOB">DOB</label>
+        <input
+          type="date"
+          class="form-control"
+          id="DOB"
+          name="DOB"
+          placeholder="Enter DOB"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input
+          type="text"
+          class="form-control"
+          id="age"
+          name="age"
+          placeholder="Enter Age"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber"> Phone Number</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="phoneNumber"
+          name="phoneNumber"
+          placeholder="Enter Phone Number"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="streetAddress"> Street Address</label>
+        <input
+          type="text"
+          class="form-control"
+          id="streetAddress"
+          name="streetAddress"
+          placeholder="Enter Address"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="city">City</label>
+        <input
+          type="text"
+          class="form-control"
+          id="city"
+          name="city"
+          placeholder="Enter City"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="post_code_or_zip"> Zip / Post Code</label>
+        <input
+          type="text"
+          class="form-control"
+          id="post_code_or_zip"
+          name="post_code_or_zip"
+          placeholder="Enter Zip/Post Code"
+          required />
+      </div>
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input
+          type="text"
+          class="form-control"
+          id="country"
+          name="country"
+          placeholder="Enter Country"
+          required />
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% endblock %}
+  </body>
+</html>

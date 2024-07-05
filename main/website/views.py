@@ -4,15 +4,23 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, "home.html")
+    return render(request, "profile.html")
 
 
 def login(request):
-    pass
+    return render(request, "login.html")
 
 
 def signup(request):
-    pass
+    return render(request, "signup.html")
+
+
+def add(request):
+    return render(request, "add-customer.html")
+
+
+def edit_profile(request):
+    return render(request, "edit-profile.html")
 
 
 def logout(request):

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Home{% endblock %}</title>
+  </head>
+  <body>
+    {% block content %}
+
+    <div class="container header my-5 text-center">
+      <h1>Welcome to Your Banking App</h1>
+    </div>
+
+    <div class="container col-6">
+      <div class="content">
+        <div class="card">
+          <h3 class="text-center mt-3">Accounts Overview</h3>
+          <p class="text-center">
+            Check your account balances and manage your accounts.
+          </p>
+          <a class="text-center mb-3" href="#">View Accounts</a>
+        </div>
+        <div class="card">
+          <h3 class="text-center mt-3">Recent Transactions</h3>
+          <p class="text-center">
+            View your recent transactions and track your spending.
+          </p>
+          <a class="text-center mb-3" href="#">View Transactions</a>
+        </div>
+        <div class="card">
+          <h3 class="text-center mt-3">Profile Settings</h3>
+          <p class="text-center">
+            Update your personal information and manage your profile settings.
+          </p>
+          <a class="text-center mb-3" href="{% url 'edit' %}">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer text-center my-5">
+      <p>&copy; 2023 Banking App. All rights reserved.</p>
+    </div>
+    {% endblock %}
+  </body>
+</html>
