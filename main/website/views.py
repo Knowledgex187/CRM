@@ -90,7 +90,7 @@ def signup(request):
             messages.info(request, "Password must contain a special Character")
             return redirect("signup")
 
-        user = User().objects.create_user(
+        user = User.objects.create_user(
             username=username,
             first_name=first_name,
             password=password,
