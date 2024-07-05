@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 
+
 # Create your models here.
 
 # List of countries as choices
@@ -218,7 +219,6 @@ class Customer(models.Model):
     middle_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50)
     DOB = models.DateField()
-    age = models.IntegerField(default=0)
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
     street_address = models.CharField(max_length=250)
@@ -262,7 +262,7 @@ class BankAccount(models.Model):
     account_number = models.CharField(max_length=20, unique=True)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
     ifsc_code = models.CharField(max_length=11)
-    monies = models.IntegerField(max_length=30)
+    monies = models.IntegerField()
     contact_number = models.CharField(max_length=15, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
