@@ -1,0 +1,85 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Add Bank Details{% endblock %}</title>
+  </head>
+  <body>
+    {% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/add.css' %}" />
+    <form
+      class="justify-content-center add-container mt-5 col-4 mx-auto"
+      method="POST">
+      <h3 class="text-center">Add Customer Bank Details</h3>
+      <div class="form-group">
+        <label for="customer" class="m-3">Customer</label>
+        <select
+          class="form-control dropdown"
+          name="customer"
+          id="customer"
+          required>
+          <option value="">Customer</option>
+          {% for customer in customers %}
+          <option value="{{ customer.uuid }}">{{ customer.first_name }} {{ customer.last_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <label class="m-3" for="account"> Account type</label>
+        <select
+          class="form-control dropdown"
+          name="account"
+          id="account"
+          required>
+          <option value="">Select Account</option>
+          {% for code, name in account_types %}
+          <option value="{{code}}">{{name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="bankName"> Bank Name</label>
+        <select name="bankName" id="bankName" required>
+          <option value="">Select Bank Name</option>
+          {% for code, name in bank_name %}
+          <option value="{{code}}">{{name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="bankAddress"> Bank Address</label>
+        <select name="bankAddress" id="bankAddress" required>
+          <option value="">Select Bank Address</option>
+          {% for code, name in bank_address %}
+          <option value="{{code}}">{{name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="accountNumber"> Account Number</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="accountNumber"
+          name="accountNumber"
+          placeholder="Enter Account Number"
+          required />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="balance">Balance</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="balance"
+          name="balance"
+          placeholder="Enter Account balance"
+          required />
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary">Add Account Details</button>
+    </form>
+    {% endblock %}
+  </body>
+</html>

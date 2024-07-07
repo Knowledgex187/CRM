@@ -258,12 +258,9 @@ class BankAccount(models.Model):
         max_length=255, choices=BANK_NAME, default="IBF"
     )
     branch_address = models.TextField(choices=BANK_ADDRESS)
-    account_holder_name = models.CharField(max_length=100)
     account_number = models.CharField(max_length=20, unique=True)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
-    ifsc_code = models.CharField(max_length=11)
     monies = models.IntegerField()
-    contact_number = models.CharField(max_length=15, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

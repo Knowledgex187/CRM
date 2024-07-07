@@ -104,16 +104,19 @@
       </div>
       <div class="form-group">
         <label class="m-3" for="country">Country</label>
-        <input
-          type="text"
-          class="form-control"
-          id="country"
+        <select
+          class="form-control dropdown"
           name="country"
-          placeholder="Enter Country"
-          required />
+          id="country"
+          required>
+          <option value="">Select Country</option>
+          {% for code, name in country_choices %}
+          <option value="{{code}}">{{name}}</option>
+          {% endfor %}
+        </select>
       </div>
       <br />
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Add Customer</button>
     </form>
     {% endblock %}
   </body>

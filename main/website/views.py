@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.models import User
 
-from .models import Customer, BankAccount, Banker
+from .models import Customer, BankAccount, Banker, COUNTRY_CHOICES
 
 # Imports messages to catch errors responses
 from django.contrib import messages
@@ -110,7 +110,11 @@ def signup(request):
 
 
 def add(request):
+    content = {
+        "country_choices": COUNTRY_CHOICES,
+    }
 
+    # All fields within the form!
     if request.method == "POST":
         email = request.POST.get("email", "").strip()
         first_name = request.POST.get("firstName", "").strip()
@@ -123,97 +127,95 @@ def add(request):
         zip_post = request.POST.get("post_code_or_zip", "").strip()
         country = request.POST.get("country", "").strip()
 
-        if (
-            not email
-            or not first_name
-            or not middle_name
-            or not last_name
-            or not dob
-            or not phone_number
-            or not street_address
-            or not city
-            or not zip_post
-            or not country
+        # Fields required backend
+        if not all(
+            [
+                email,
+                first_name,
+                last_name,
+                dob,
+                phone_number,
+                street_address,
+                city,
+                zip_post,
+                country,
+            ]
         ):
-            messages.info(request, "All fields are required!")
+            messages.info(
+                request, "All fields except Middle Name are required!"
+            )
             return redirect("add")
 
-        if User.objects.filter(username=email).exists():
+        # Checks if Customer already exists
+        if Customer.objects.filter(email=email).exists():
             messages.info(request, "Customer already exists!")
             return redirect("add")
 
+        # Email length
         if len(email) < 7:
             messages.info(request, "Email must be longer than 6 characters!")
             return redirect("signup")
 
+        # Email validation
         try:
             validate_email(email)
         except ValidationError:
             messages.info(request, "Invalid email format!")
             return redirect("add")
 
-        if len(first_name) < 3:
+        # First name parameters
+        if len(first_name) < 3 or not first_name.isalpha():
             messages.info(
-                request, "First Name must contain more than 2 characters!"
+                request,
+                "First Name must be more than two characters, and contain all letters!",
+            )
+
+        # Last name parameters
+        if len(last_name) < 3 or not last_name.isalpha():
+            messages.info(
+                request,
+                "Last Name must be more than 2 characters, and contain all letters!",
             )
             return redirect("add")
 
-        # First name letters only parameters
-        if not first_name.isalpha():
-            messages.info(request, "First Name must be letters only!")
-            return redirect("add")
-
-        # Last name length parameters
-        if len(last_name) < 3:
-            messages.info(request, "Last Name must be more than 2 characters!")
-            return redirect("add")
-
-        # Last name length parameters
-        if len(middle_name) < 3:
+        # Middle name parameters
+        if len(middle_name) < 3 or not middle_name.isalpha():
             messages.info(
-                request, "Middle Name must be more than 2 characters!"
+                request,
+                "Middle Name must be more than 2 characters, and contain all letters!",
             )
             return redirect("add")
 
-        if not middle_name.isalpha():
-            messages.info(request, "middle name must be letters only!")
-            return redirect("add")
-
-        # Last name letters only parameters
-        if not last_name.isalpha():
-            messages.info(request, " Last Name must be letters only!")
-            return redirect("add")
-
-        if not phone_number.isdigit():
+        # Phone number parameters
+        if not phone_number.isdigit() or len(phone_number) < 7:
             messages.info(
-                request, "Phone number must be numerical values only!"
+                request,
+                "Phone number must be numerical values only, and be more than 6 digits!",
             )
             return redirect("add")
 
-        if len(phone_number) < 7:
-            messages.info(
-                request, "Phone number must be numerical values only!"
-            )
-            return redirect("add")
-
+        # Street address length
         if len(street_address) < 3:
             messages.info(
                 request, "Street address must be at least 3 characters !"
             )
             return redirect("add")
 
+        # City length
         if len(city) < 2:
             messages.info(request, "City must be at least 2 characters!")
             return redirect("add")
 
+        # Post Code length
         if len(zip_post) < 4:
             messages.info(
                 request, "Zip/Post code must be more than 4 characters!"
             )
             return redirect("add")
 
-        user = User.objects.create_user(
-            username=email,
+        # Add new customer
+        customer = Customer.objects.create(
+            email=email,
             first_name=first_name,
             middle_name=middle_name,
             last_name=last_name,
@@ -224,9 +226,15 @@ def add(request):
             zip_post=zip_post,
             country=country,
         )
-        user.save()
+        customer.save()
+        messages.info(request, "Customer Added!")
+        return redirect("bankacount")
 
-    return render(request, "add-customer.html")
+    return render(request, "add-customer.html", content)
+
+
+def bank_account(request):
+    pass
 
 
 def edit_profile(request):
@@ -247,14 +255,14 @@ def edit_profile(request):
                 selected_customer.delete()
                 messages.info(request, "Customer successfully deleted!")
                 return redirect(
-                    "edit-profile/"
+                    "edit"
                 )  # Redirect to a success page after deletion
 
             if form.is_valid():
                 form.save()
                 messages.info(request, "Customer details updated!")
                 return redirect(
-                    "edit-profile/"
+                    "edit"
                 )  # Redirect to a success page after saving
 
         else:
