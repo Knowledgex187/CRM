@@ -9,7 +9,7 @@
   <body>
     {% block content %}
 
-    <link rel="stylesheet" href="{% static 'css/banker.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/add.css' %}" />
     <form
       class="justify-content-center add-container mt-5 col-4 mx-auto"
       method="POST">
@@ -25,7 +25,8 @@
           required>
           <option value="">Banker</option>
           {% for user in users %}
-          <option value="{{user}}">
+          <option value="{{user.id}}">
+            {% if user == current_user %}selected{% endif %}
             {{ user.first_name }} {{ user.last_name }}
           </option>
           {% endfor %}

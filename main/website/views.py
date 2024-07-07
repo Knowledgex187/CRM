@@ -318,7 +318,15 @@ def bank_account(request):
 
 
 def banker(request):
-    return render(request, "banker.html")
+
+    # Requests current user from default User module
+    user = request.user
+
+    content = {
+        "user": user,
+    }
+
+    return render(request, "banker.html", content)
 
 
 def edit_profile(request):
