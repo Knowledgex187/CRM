@@ -15,7 +15,7 @@
       method="POST">
       <h3 class="text-center">Add Customer Bank Details</h3>
       <div class="form-group">
-        <label for="customer" class="m-3">Customer</label>
+        <label for="customer" class="m-3"><strong>Customer</strong></label>
         <select
           class="form-control dropdown"
           name="customer"
@@ -27,7 +27,7 @@
           {% endfor %}
         </select>
       </div>
-      <label class="m-3" for="account"> Account type</label>
+      <label class="m-3" for="account"><strong>Account type</strong></label>
         <select
           class="form-control dropdown"
           name="account"
@@ -40,7 +40,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="m-3" for="bankName"> Bank Name</label>
+        <label class="m-3" for="bankName"><strong>Bank Name :</strong></label>
         <select name="bankName" id="bankName" required>
           <option value="">Select Bank Name</option>
           {% for code, name in bank_name %}
@@ -49,7 +49,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="m-3" for="bankAddress"> Bank Address</label>
+        <label class="m-3" for="bankAddress"><strong>Bank Address :</strong></label>
         <select name="bankAddress" id="bankAddress" required>
           <option value="">Select Bank Address</option>
           {% for code, name in bank_address %}
@@ -58,7 +58,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label class="m-3" for="accountNumber"> Account Number</label>
+        <label class="m-3" for="accountNumber"><strong>Account Number</strong></label>
         <input
           type="tel"
           class="form-control"
@@ -68,7 +68,7 @@
           required />
       </div>
       <div class="form-group">
-        <label class="m-3" for="balance">Balance</label>
+        <label class="m-3" for="balance"><strong>Balance</strong></label>
         <input
           type="tel"
           class="form-control"

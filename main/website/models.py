@@ -257,15 +257,15 @@ class BankAccount(models.Model):
     bank_name = models.CharField(
         max_length=255, choices=BANK_NAME, default="IBF"
     )
-    branch_address = models.TextField(choices=BANK_ADDRESS)
+    bank_address = models.TextField(choices=BANK_ADDRESS)
     account_number = models.CharField(max_length=20, unique=True)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
-    monies = models.IntegerField()
+    balance = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.account_holder_name} - {self.bank_name} ({self.account_type})"
+        return f"{self.customer} - {self.bank_name} ({self.account_type})"
 
 
 class Banker(models.Model):

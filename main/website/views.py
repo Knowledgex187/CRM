@@ -228,13 +228,71 @@ def add(request):
         )
         customer.save()
         messages.info(request, "Customer Added!")
-        return redirect("bankacount")
+        return redirect("bankaccount")
 
     return render(request, "add-customer.html", content)
 
 
 def bank_account(request):
-    pass
+    customers = Customer.objects.all()
+    account_type = BankAccount.ACCOUNT_TYPES
+    bank_name = BankAccount.BANK_NAME
+    bank_address = BankAccount.BANK_ADDRESS
+
+    content = {
+        "customers": customers,
+        "account_type": account_type,
+        "bank_name": bank_name,
+        "bank_address": bank_address,
+    }
+
+    if request.method == "POST":
+        customer = request.POST.get("customer")
+        account_type = request.POST.get("account")
+        bank_name = request.POST.get("bankName")
+        bank_address = request.POST.get("bankAddress")
+        account_number = request.POST.get("accountNumber").strip()
+        balance = request.POST.get("balance").strip()
+
+        if not all(
+            [
+                customer,
+                account_type,
+                account_number,
+                bank_name,
+                bank_address,
+                balance,
+            ]
+        ):
+            messages.info(request, "All fields required!")
+            return redirect("bankaccount")
+
+        if len(account_number) < 11 or not account_number.isdigit():
+            messages.info(
+                request,
+                "Account number must be 11 digits and have numerical values only!",
+            )
+            return redirect("bankaccount")
+
+        if not balance.isdigit():
+            messages.info(request, "Balance must be numerical values only!")
+            return redirect("bankaccount")
+
+        customer == Customer.objects.get(uuid=customer)
+
+        bank_account = BankAccount.objects.create(
+            customer=customer,
+            bank_name=bank_name,
+            bank_address=bank_address,
+            account_number=account_number,
+            account_type=account_type,
+            balance=balance,
+        )
+        bank_account.save()
+        messages.info(request, "Bank details updated!")
+        return redirect()
+
+    return render(request, "bank-account.html", content)
 
 
 def edit_profile(request):
