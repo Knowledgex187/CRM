@@ -1,0 +1,54 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}{{ customer_details.first_name }} {{
+      customer_details.last_name }}{%endblock %}
+    </title>
+  </head>
+  <body>
+    {% block content %}
+    <div class="container mt-5">
+      <h2 class="text-center">
+        {{ customer_details.first_name }} {{ customer_details.last_name }}
+      </h2>
+      <div class="customer-container">
+        {% for customer in customers %}
+        <div class="customer-card">
+          <h3>
+            {{ customer_details.first_name }} {{ customer_details.middle_name }}
+            {{ customer_details.last_name }}
+          </h3>
+          <p><strong>UUID:</strong> {{ customer_details.uuid }}</p>
+          <details>
+            <summary>More Details</summary>
+            <p><strong>Date of Birth:</strong> {{ customer_details.DOB }}</p>
+            <p>
+              <strong>Phone Number:</strong> {{ customer_details.phone_number }}
+            </p>
+            <p><strong>Email:</strong> {{ customer_details.email }}</p>
+            <p>
+              <strong>Street Address:</strong> {{
+              customer_details.street_address }}
+            </p>
+            <p><strong>City:</strong> {{ customer_details.city }}</p>
+            <p>
+              <strong>Post Code/Zip:</strong> {{
+              customer_details.post_code_or_zip }}
+            </p>
+            <p><strong>Country:</strong> {{ customer_details.country }}</p>
+            <p>
+              <strong>Identity Verified:</strong> {{
+              customer_details.identity_verified }}
+            </p>
+          </details>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

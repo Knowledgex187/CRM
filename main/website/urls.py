@@ -10,5 +10,6 @@ urlpatterns = [
     path("edit-profile/", views.edit_profile, name="edit"),
     path("bank-account/", views.bank_account, name="bankaccount"),
     path("assign-banker/", views.banker, name="banker"),
-    path("view-customers/", views.view_customers, name="view"),
+    path("view-customers/", views.customer_all, name="view"),
+    path("customer/<str:pk/>", views.view_customer, name="customer"),
 ]

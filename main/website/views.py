@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.models import User
 
-from .models import Customer, BankAccount, Banker, COUNTRY_CHOICES
+from .models import Customer, BankAccount, COUNTRY_CHOICES
 
 # Imports messages to catch errors responses
 from django.contrib import messages
@@ -245,14 +245,25 @@ def add(request):
     return render(request, "add-customer.html", content)
 
 
-def view_customers(request):
-    customers = Customer.objects.all()
+def view_customer(request, pk):
+    customer_uuid = pk
+    customer_details = Customer.objects.get(uuid=customer_uuid)
 
     content = {
-        "customers": customers,
+        "customer_details": customer_details,
     }
 
-    pass
+    return render(request, "customer-view.html", content)
+
+
+def customer_all(request):
+    customer = Customer.objects.all()
+
+    content = {
+        "customer": customer,
+    }
+
+    return render(request, "customer-list.html", content)
 
 
 def bank_account(request):
@@ -300,6 +311,7 @@ def bank_account(request):
             messages.info(request, "Balance must be numerical values only!")
             return redirect("bankaccount")
 
+        # Get Customer in Customer model by ID
         customer == Customer.objects.get(uuid=customer)
 
         bank_account = BankAccount.objects.create(
