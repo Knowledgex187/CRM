@@ -45,10 +45,11 @@ def signup(request):
     if request.method == "POST":
         username = request.POST.get("email", "").strip()
         first_name = request.POST.get("firstName", "").strip()
+        last_name = request.POST.get("lastName", "").strip()
         password = request.POST.get("password1", "").strip()
         password1 = request.POST.get("password2", "").strip()
 
-        if not username or not first_name or not password or not password1:
+        if not all([username, first_name, last_name, password, password1]):
             messages.info(request, "All fields required")
             return redirect("signup")
 
@@ -70,9 +71,20 @@ def signup(request):
             )
             return redirect("signup")
 
+        if len(last_name) < 3:
+            messages.info(
+                request, "Last Name must contain more than 2 characters!"
+            )
+            return redirect("signup")
+
         # First name letters only parameters
         if not first_name.isalpha():
             messages.info(request, "First Name must be letters only!")
+            return redirect("signup")
+
+        # Last name letters only parameters
+        if not last_name.isalpha():
+            messages.info(request, "Last Name must be letters only!")
             return redirect("signup")
 
         # Password Numerical value parameters
@@ -233,6 +245,16 @@ def add(request):
     return render(request, "add-customer.html", content)
 
 
+def view_customers(request):
+    customers = Customer.objects.all()
+
+    content = {
+        "customers": customers,
+    }
+
+    pass
+
+
 def bank_account(request):
     customers = Customer.objects.all()
     account_type = BankAccount.ACCOUNT_TYPES
@@ -290,9 +312,13 @@ def bank_account(request):
         )
         bank_account.save()
         messages.info(request, "Bank details updated!")
-        return redirect()
+        return redirect("banker")
 
     return render(request, "bank-account.html", content)
+
+
+def banker(request):
+    return render(request, "banker.html")
 
 
 def edit_profile(request):

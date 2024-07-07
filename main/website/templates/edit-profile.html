@@ -12,6 +12,16 @@
     <div class="container col-6">
         <div class="header">
             <h1 class="text-center mt-5">Edit Profile</h1>
+            <div>
+              <style>
+                h6 {
+                  color: red;
+                }
+              </style>
+              {% for message in messages %}
+              <h6>{{message}}</h6>
+              {% endfor %}
+            </div>
         </div>
 
         <form class="col-4 justify-content-center container" action="POST">

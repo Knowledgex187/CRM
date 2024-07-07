@@ -10,7 +10,19 @@
     {% block content %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}" />
     <form class="login-container mt-5 col-3 mx-auto" method="POST">
+      {% csrf_token %}
       <h3 class="text-center">Login</h3>
+
+      <div>
+        <style>
+          h6 {
+            color: red;
+          }
+        </style>
+        {% for message in messages %}
+        <h6>{{message}}</h6>
+        {% endfor %}
+      </div>
       <div class="form-group mb-2">
         <label class="mb-3" for="email"> Email Address</label>
         <input

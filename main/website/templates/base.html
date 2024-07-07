@@ -56,12 +56,19 @@
               href="{% url 'bankaccount' %}"
               >Add Bank Details</a
             >
+            <a class="nav-item nav-link" id="banker" href="{% url 'banker' %}"
+              >Assign banker</a
+            >
           </div>
         </div>
       </div>
     </nav>
 
     {% block content %}{% endblock %}
+
+    <div class="footer text-center my-5">
+      <p>&copy; 2023 Banking App. All rights reserved.</p>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

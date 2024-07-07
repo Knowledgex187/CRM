@@ -10,6 +10,16 @@
     {% block content %}
 
     <div class="container header my-5 text-center">
+      <div>
+        <style>
+          h6 {
+            color: red;
+          }
+        </style>
+        {% for message in messages %}
+        <h6>{{message}}</h6>
+        {% endfor %}
+      </div>
       <h1>Welcome to Your Banking App</h1>
     </div>
 
@@ -39,9 +49,6 @@
       </div>
     </div>
 
-    <div class="footer text-center my-5">
-      <p>&copy; 2023 Banking App. All rights reserved.</p>
-    </div>
     {% endblock %}
   </body>
 </html>

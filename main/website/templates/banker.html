@@ -1,0 +1,39 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Add Bank Details{% endblock %}</title>
+  </head>
+  <body>
+    {% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/banker.css' %}" />
+    <form
+      class="justify-content-center add-container mt-5 col-4 mx-auto"
+      method="POST">
+      {% csrf_token %}
+      <h3 class="text-center">Assign Banker</h3>
+      <div class="form-group">
+      <div class="form-group">
+        <label class="m-3" for="bankerName"><strong>Banker Name</strong></label>
+        <select
+          class="dropdown form-control"
+          name="bankerName"
+          id="bankerName"
+          required>
+          <option value="">Banker</option>
+          {% for user in users %}
+          <option value="{{user}}">
+            {{ user.first_name }} {{ user.last_name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary">Assign Banker</button>
+    </form>
+    {% endblock %}
+  </body>
+</html>

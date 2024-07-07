@@ -9,11 +9,22 @@
   <body>
     {% block content %}
 
-    <link rel="stylesheet" href="{% static 'css/add.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/account.css' %}" />
     <form
       class="justify-content-center add-container mt-5 col-4 mx-auto"
       method="POST">
+      {% csrf_token %}
       <h3 class="text-center">Add Customer Bank Details</h3>
+      <div>
+        <style>
+          h6 {
+            color: red;
+          }
+        </style>
+        {% for message in messages %}
+        <h6>{{message}}</h6>
+        {% endfor %}
+      </div>
       <div class="form-group">
         <label for="customer" class="m-3"><strong>Customer</strong></label>
         <select
@@ -34,7 +45,7 @@
           id="account"
           required>
           <option value="">Select Account</option>
-          {% for code, name in account_types %}
+          {% for code, name in account_type %}
           <option value="{{code}}">{{name}}</option>
           {% endfor %}
         </select>
