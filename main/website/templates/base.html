@@ -28,17 +28,10 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbar">
           <div class="navbar-nav">
+            {% if user.is_authenticated %}
             <!-- Nav link for Logout -->
             <a class="nav-item nav-link" id="logout" href="{% url 'logout' %}"
               >Logout</a
-            >
-            <!-- Nav link for login -->
-            <a class="nav-item nav-link" id="login" href="{% url 'login' %}"
-              >Login</a
-            >
-            <!-- Nav link for Sign Up -->
-            <a class="nav-item nav-link" id="sign-up" href="{% url 'signup' %}"
-              >Sign Up</a
             >
             <a class="nav-item nav-link" id="accounts" href="#">Accounts</a>
             <a class="nav-item nav-link" id="transactions" href="#"
@@ -59,6 +52,16 @@
             <a class="nav-item nav-link" id="banker" href="{% url 'banker' %}"
               >Assign banker</a
             >
+            {% else %}
+            <!-- Nav link for login -->
+            <a class="nav-item nav-link" id="login" href="{% url 'login' %}"
+              >Login</a
+            >
+            <!-- Nav link for Sign Up -->
+            <a class="nav-item nav-link" id="sign-up" href="{% url 'signup' %}"
+              >Sign Up</a
+            >
+            {% endif %}
           </div>
         </div>
       </div>

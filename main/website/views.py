@@ -3,22 +3,25 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.models import User
 
-from .models import Customer, BankAccount, COUNTRY_CHOICES
+from .models import Customer, BankAccount, COUNTRY_CHOICES, Banker
 
 # Imports messages to catch errors responses
 from django.contrib import messages
 
-from .forms import CustomerForm
 
 from django.core.validators import validate_email
 
 from django.contrib.auth import authenticate, login, logout as auth_logout
+
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
 SpecialSym = set("!£$%^&*()?@;:~`¬-=_+")
 
 
+@login_required(login_url="login")
 def home(request):
     return render(request, "profile.html")
 
@@ -46,8 +49,8 @@ def signup(request):
         username = request.POST.get("email", "").strip()
         first_name = request.POST.get("firstName", "").strip()
         last_name = request.POST.get("lastName", "").strip()
-        password = request.POST.get("password1", "").strip()
-        password1 = request.POST.get("password2", "").strip()
+        password = request.POST.get("password", "").strip()
+        password1 = request.POST.get("password1", "").strip()
 
         if not all([username, first_name, last_name, password, password1]):
             messages.info(request, "All fields required")
@@ -105,8 +108,8 @@ def signup(request):
         user = User.objects.create_user(
             username=username,
             first_name=first_name,
+            last_name=last_name,
             password=password,
-            password1=password1,
         )
         user.save()
 
@@ -121,6 +124,7 @@ def signup(request):
     return render(request, "signup.html")
 
 
+@login_required(login_url="login")
 def add(request):
     content = {
         "country_choices": COUNTRY_CHOICES,
@@ -132,12 +136,13 @@ def add(request):
         first_name = request.POST.get("firstName", "").strip()
         middle_name = request.POST.get("middleName", "").strip()
         last_name = request.POST.get("lastName", "").strip()
-        dob = request.POST.get("DOB", "").strip()
+        dob = request.POST.get("dob", "").strip()
         phone_number = request.POST.get("phoneNumber", "").strip()
         street_address = request.POST.get("streetAddress", "").strip()
         city = request.POST.get("city", "").strip()
-        zip_post = request.POST.get("post_code_or_zip", "").strip()
+        post_code_or_zip = request.POST.get("post_code_or_zip", "").strip()
         country = request.POST.get("country", "").strip()
+        verified = request.POST.get("verifiedCheckbox") == "on"
 
         # Fields required backend
         if not all(
@@ -149,7 +154,7 @@ def add(request):
                 phone_number,
                 street_address,
                 city,
-                zip_post,
+                post_code_or_zip,
                 country,
             ]
         ):
@@ -166,7 +171,7 @@ def add(request):
         # Email length
         if len(email) < 7:
             messages.info(request, "Email must be longer than 6 characters!")
-            return redirect("signup")
+            return redirect("add")
 
         # Email validation
         try:
@@ -181,20 +186,13 @@ def add(request):
                 request,
                 "First Name must be more than two characters, and contain all letters!",
             )
+            return redirect("add")
 
         # Last name parameters
         if len(last_name) < 3 or not last_name.isalpha():
             messages.info(
                 request,
                 "Last Name must be more than 2 characters, and contain all letters!",
-            )
-            return redirect("add")
-
-        # Middle name parameters
-        if len(middle_name) < 3 or not middle_name.isalpha():
-            messages.info(
-                request,
-                "Middle Name must be more than 2 characters, and contain all letters!",
             )
             return redirect("add")
 
@@ -219,7 +217,7 @@ def add(request):
             return redirect("add")
 
         # Post Code length
-        if len(zip_post) < 4:
+        if len(post_code_or_zip) < 4:
             messages.info(
                 request, "Zip/Post code must be more than 4 characters!"
             )
@@ -235,8 +233,9 @@ def add(request):
             phone_number=phone_number,
             street_address=street_address,
             city=city,
-            zip_post=zip_post,
+            post_code_or_zip=post_code_or_zip,
             country=country,
+            verified=verified,
         )
         customer.save()
         messages.info(request, "Customer Added!")
@@ -245,6 +244,7 @@ def add(request):
     return render(request, "add-customer.html", content)
 
 
+@login_required(login_url="login")
 def view_customer(request, pk):
     customer_uuid = pk
     customer_details = Customer.objects.get(uuid=customer_uuid)
@@ -256,6 +256,7 @@ def view_customer(request, pk):
     return render(request, "customer-view.html", content)
 
 
+@login_required(login_url="login")
 def customer_all(request):
     customer = Customer.objects.all()
 
@@ -266,6 +267,7 @@ def customer_all(request):
     return render(request, "customer-list.html", content)
 
 
+@login_required(login_url="login")
 def bank_account(request):
     customers = Customer.objects.all()
     account_type = BankAccount.ACCOUNT_TYPES
@@ -280,7 +282,7 @@ def bank_account(request):
     }
 
     if request.method == "POST":
-        customer = request.POST.get("customer")
+        customer_uuid = request.POST.get("customer")
         account_type = request.POST.get("account")
         bank_name = request.POST.get("bankName")
         bank_address = request.POST.get("bankAddress")
@@ -289,7 +291,7 @@ def bank_account(request):
 
         if not all(
             [
-                customer,
+                customer_uuid,
                 account_type,
                 account_number,
                 bank_name,
@@ -312,7 +314,7 @@ def bank_account(request):
             return redirect("bankaccount")
 
         # Get Customer in Customer model by ID
-        customer == Customer.objects.get(uuid=customer)
+        customer = Customer.objects.get(uuid=customer_uuid)
 
         bank_account = BankAccount.objects.create(
             customer=customer,
@@ -329,18 +331,58 @@ def bank_account(request):
     return render(request, "bank-account.html", content)
 
 
+@login_required(login_url="login")
 def banker(request):
 
     # Requests current user from default User module
-    user = request.user
+    customers = Customer.objects.all()
+    users = User.objects.all()
+    current_user = request.user
 
     content = {
-        "user": user,
+        "customers": customers,
+        "users": users,
+        "current_user": current_user,
     }
+
+    if request.method == "POST":
+        customer_uuid = request.POST.get("customer")
+        user = request.user
+
+        if not all(
+            [
+                customer_uuid,
+            ]
+        ):
+            messages.info(request, "All fields required!")
+            return redirect("banker")
+
+        customer = Customer.objects.get(uuid=customer_uuid)
+
+        if Banker.objects.filter(
+            customer=customer,
+            first_name=user.first_name,
+            last_name=user.last_name,
+        ).exists():
+            messages.info(
+                request,
+                f"{customer.first_name} {customer.last_name} is already assigned to {user.first_name} {user.last_name}!",
+            )
+            return redirect("profile")
+
+        bank = Banker.objects.create(
+            customer=customer,
+            first_name=user.first_name,
+            last_name=user.last_name,
+        )
+        bank.save()
+        messages.info(request, "Banker assigned!")
+        return redirect("profile")
 
     return render(request, "banker.html", content)
 
 
+@login_required(login_url="login")
 def edit_profile(request):
     customers = Customer.objects.all()
     selected_customer = None
@@ -349,7 +391,7 @@ def edit_profile(request):
     if request.method == "POST":
         customer_id = request.POST.get("customer_id")
         if customer_id:
-            selected_customer = get_object_or_404(Customer, id=customer_id)
+            selected_customer = get_object_or_404(Customer, uuid=customer_id)
 
             form = CustomerForm(
                 request.POST, request.FILES, instance=selected_customer
@@ -384,6 +426,7 @@ def edit_profile(request):
     return render(request, "edit-profile.html", content)
 
 
+@login_required(login_url="login")
 def logout(request):
     auth_logout(request)
     messages.info(request, "You have logged out!")

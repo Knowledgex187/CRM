@@ -27,14 +27,27 @@
         <form class="col-4 justify-content-center container" action="POST">
           {% csrf_token %}
             <div class="form-group">
-                <label class="m-3" for="email"> Email Address</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  placeholder="Enter Email" />
+            <select
+            class="form-control dropdown mt-3"
+            name="customer"
+            id="customer"
+            required>
+            <option value="">Customer</option>
+            {% for customer in customers %}
+            <option value="{{ customer.uuid }}">{{ customer.first_name }} {{ customer.last_name }}</option>
+            {% endfor %}
+            </div>
+
+            <div class="form-group">
+            <label class="m-3" for="email"> Email Address</label>
+            <input
+              type="email"
+              class="form-control mt-3"
+              id="email"
+              name="email"
+              placeholder="Enter Email" />
               </div>
+
               <div class="form-group">
                 <label class="m-3" for="firstName"> First Name</label>
                 <input
@@ -121,9 +134,8 @@
               <button name="delete-account" type="submit" class="btn btn-danger mt-5">Delete Account</button>
             </div>
         </form>
-    <div class="footer text-center my-5">
-      <p>&copy; 2023 Banking App. All rights reserved.</p>
-    </div>
+        <script src="{% static 'js/edit.js' %}"></script>
+    
     {% endblock %}
   </body>
 </html>

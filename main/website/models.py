@@ -218,7 +218,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50)
-    DOB = models.DateField()
+    dob = models.DateField()
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
     street_address = models.CharField(max_length=250)
@@ -227,8 +227,7 @@ class Customer(models.Model):
     country = models.CharField(
         max_length=100, choices=COUNTRY_CHOICES, default="United Kingdom"
     )
-    identity_verified = models.BooleanField(default=False)
-    picture = models.ImageField(blank=True, null=True)
+    verified = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.first_name} {self.middle_name or ''} {self.last_name}".strip()

@@ -16,6 +16,21 @@
       {% csrf_token %}
       <h3 class="text-center">Assign Banker</h3>
       <div class="form-group">
+        <label for="customer" class="m-3"><strong>Customer</strong></label>
+        <select
+          name="customer"
+          id="customer"
+          class="dropdown form-control"
+          required>
+          customer
+          <option value="">Customer</option>
+          {% for customer in customers %}
+          <option value="{{customer.uuid}}">
+            {{customer.first_name}} {{customer.last_name}}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
       <div class="form-group">
         <label class="m-3" for="bankerName"><strong>Banker Name</strong></label>
         <select
@@ -23,13 +38,9 @@
           name="bankerName"
           id="bankerName"
           required>
-          <option value="">Banker</option>
-          {% for user in users %}
-          <option value="{{user.id}}">
-            {% if user == current_user %}selected{% endif %}
-            {{ user.first_name }} {{ user.last_name }}
+          <option value="{{current_user.id}}" selected>
+            {{current_user.first_name}} {{current_user.last_name}}
           </option>
-          {% endfor %}
         </select>
       </div>
       <br />
