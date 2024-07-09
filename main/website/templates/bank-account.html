@@ -32,13 +32,13 @@
           name="customer"
           id="customer"
           required>
-          <option value="">Customer</option>
+          <option value="">------------------</option>
           {% for customer in customers %}
           <option value="{{ customer.uuid }}">{{ customer.first_name }} {{ customer.last_name }}</option>
           {% endfor %}
         </select>
       </div>
-      <label class="m-3" for="account"><strong>Account type</strong></label>
+      <label class="m-3" for="account"><strong>Account Type</strong></label>
         <select
           class="form-control dropdown"
           name="account"
@@ -53,7 +53,6 @@
       <div class="form-group">
         <label class="m-3" for="bankName"><strong>Bank Name :</strong></label>
         <select name="bankName" id="bankName" required>
-          <option value="">Select Bank Name</option>
           {% for code, name in bank_name %}
           <option value="{{code}}">{{name}}</option>
           {% endfor %}
@@ -62,7 +61,6 @@
       <div class="form-group">
         <label class="m-3" for="bankAddress"><strong>Bank Address :</strong></label>
         <select name="bankAddress" id="bankAddress" required>
-          <option value="">Select Bank Address</option>
           {% for code, name in bank_address %}
           <option value="{{code}}">{{name}}</option>
           {% endfor %}

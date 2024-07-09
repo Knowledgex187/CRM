@@ -251,7 +251,94 @@ def view_customer(request, pk):
 
     content = {
         "customer_details": customer_details,
+        "country_choices": COUNTRY_CHOICES,
     }
+
+    if request.method == "POST":
+        email = request.POST.get("email", "").strip()
+        first_name = request.POST.get("firstName", "").strip()
+        middle_name = request.POST.get("middleName", "").strip()
+        last_name = request.POST.get("lastName", "").strip()
+        dob = request.POST.get("dob", "").strip()
+        phone_number = request.POST.get("phoneNumber", "").strip()
+        street_address = request.POST.get("streetAddress", "").strip()
+        city = request.POST.get("city", "").strip()
+        post_code_or_zip = request.POST.get("post_code_or_zip", "").strip()
+        country = request.POST.get("country", "").strip()
+        verified = request.POST.get("verifiedCheckbox") == "on"
+
+        if len(email) < 7:
+            messages.info(request, "Email must be longer than 6 characters!")
+            return redirect("edit-customer", pk=pk)
+
+        # Email validation
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.info(request, "Invalid email format!")
+            return redirect("edit-customer", pk=pk)
+
+        # First name parameters
+        if len(first_name) < 3 or not first_name.isalpha():
+            messages.info(
+                request,
+                "First Name must be more than two characters, and contain all letters!",
+            )
+            return redirect("edit-customer", pk=pk)
+
+        # Last name parameters
+        if len(last_name) < 3 or not last_name.isalpha():
+            messages.info(
+                request,
+                "Last Name must be more than 2 characters, and contain all letters!",
+            )
+            return redirect("edit-customer", pk=pk)
+
+        # Phone number parameters
+        if not phone_number.isdigit() or len(phone_number) < 7:
+            messages.info(
+                request,
+                "Phone number must be numerical values only, and be more than 6 digits!",
+            )
+            return redirect("edit-customer", pk=pk)
+
+        # Street address length
+        if len(street_address) < 3:
+            messages.info(
+                request, "Street address must be at least 3 characters !"
+            )
+            return redirect("edit-customer", pk=pk)
+
+        # City length
+        if len(city) < 2:
+            messages.info(request, "City must be at least 2 characters!")
+            return redirect("edit-customer", pk=pk)
+
+        # Post Code length
+        if len(post_code_or_zip) < 4:
+            messages.info(
+                request, "Zip/Post code must be more than 4 characters!"
+            )
+            return redirect("edit-customer", pk=pk)
+
+        customer_details.email = email
+        customer_details.first_name = first_name
+        customer_details.middle_name = middle_name
+        customer_details.last_name = last_name
+        customer_details.dob = dob
+        customer_details.phone_number = phone_number
+        customer_details.street_address = street_address
+        customer_details.city = city
+        customer_details.post_code_or_zip = post_code_or_zip
+        customer_details.country = country
+        customer_details.verified = verified
+        customer_details.save()
+
+        messages.info(
+            request,
+            f"{customer_details.first_name} {customer_details.middle_name} {customer_details.last_name} details updated successfully!",
+        )
+        return redirect("edit-customer", pk=pk)
 
     return render(request, "customer-view.html", content)
 

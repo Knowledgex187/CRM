@@ -13,7 +13,9 @@
     <hr />
     <div class="mt-5 customer-list offset-2">
       {% for customer in customers %}
-      <div class="card" onclick="showModal(this)">
+      <div
+        class="card"
+        onclick="location.href='{% url 'edit-customer' customer.uuid %}'">
         <div class="card-body">
           <h5 class="card-title text-center">
             {{customer.first_name}} {{customer.middle_name}}
@@ -25,6 +27,7 @@
       {% endfor %}
     </div>
     <script src="{% static '/js/script.js' %}"></script>
+    <script src="{% static 'js/modal.js' %}"></script>
     {% endblock %}
   </body>
 </html>

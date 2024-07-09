@@ -5,50 +5,146 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      {% block title %}{{ customer_details.first_name }} {{
-      customer_details.last_name }}{%endblock %}
+      {% block title %}{{ customer_details.first_name }}
+      {{customer_details.middle_name}} {{customer_details.last_name}}
+      {%endblock%}
     </title>
   </head>
   <body>
     {% block content %}
-    <div class="container mt-5">
+    <form
+      class="justify-content-center add-container mt-5 col-4 mx-auto editForm"
+      method="POST">
+      {% csrf_token %}
       <h2 class="text-center">
-        {{ customer_details.first_name }} {{ customer_details.last_name }}
+        Edit : {{customer_details.first_name}} {{customer_details.middle_name}}
+        {{customer_details.last_name}}
       </h2>
-      <div class="customer-container">
-        {% for customer in customers %}
-        <div class="customer-card">
-          <h3>
-            {{ customer_details.first_name }} {{ customer_details.middle_name }}
-            {{ customer_details.last_name }}
-          </h3>
-          <p><strong>UUID:</strong> {{ customer_details.uuid }}</p>
-          <details>
-            <summary>More Details</summary>
-            <p><strong>Date of Birth:</strong> {{ customer_details.DOB }}</p>
-            <p>
-              <strong>Phone Number:</strong> {{ customer_details.phone_number }}
-            </p>
-            <p><strong>Email:</strong> {{ customer_details.email }}</p>
-            <p>
-              <strong>Street Address:</strong> {{
-              customer_details.street_address }}
-            </p>
-            <p><strong>City:</strong> {{ customer_details.city }}</p>
-            <p>
-              <strong>Post Code/Zip:</strong> {{
-              customer_details.post_code_or_zip }}
-            </p>
-            <p><strong>Country:</strong> {{ customer_details.country }}</p>
-            <p>
-              <strong>Identity Verified:</strong> {{
-              customer_details.identity_verified }}
-            </p>
-          </details>
-        </div>
+      <div>
+        <style>
+          h6 {
+            color: red;
+          }
+        </style>
+        {% for message in messages %}
+        <h6>{{message}}</h6>
         {% endfor %}
       </div>
-    </div>
+      <div class="form-group">
+        <label class="m-3" for="email"><strong>Email Address</strong></label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter Email"
+          value="{{customer_details.email}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="firstName"><strong>First Name</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          placeholder="Enter First Name"
+          value="{{customer_details.first_name}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="middleName"><strong>Middle Name</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          id="middleName"
+          name="middleName"
+          placeholder="Enter Middle Name"
+          value="{{customer_details.middle_name}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="lastName"><strong>Last Name</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          name="lastName"
+          placeholder="Enter Last Name"
+          value="{{customer_details.last_name}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="dob"><strong>DOB</strong></label>
+        <input
+          type="date"
+          class="form-control"
+          id="dob"
+          name="dob"
+          placeholder="Enter DOB"
+          value="{{customer_details.dob|date:'Y-m-d'}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="phoneNumber"
+          ><strong>Phone Number</strong></label
+        >
+        <input
+          type="tel"
+          class="form-control"
+          id="phoneNumber"
+          name="phoneNumber"
+          placeholder="Enter Phone Number"
+          value="{{customer_details.phone_number}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="streetAddress"
+          ><strong>Street Address</strong></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="streetAddress"
+          name="streetAddress"
+          placeholder="Enter Address"
+          value="{{customer_details.street_address}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="city"><strong>City</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          id="city"
+          name="city"
+          placeholder="Enter City"
+          value="{{customer_details.city}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="post_code_or_zip"
+          ><strong>Zip / Post Code</strong></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="post_code_or_zip"
+          name="post_code_or_zip"
+          placeholder="Enter Zip/Post Code"
+          value="{{customer_details.post_code_or_zip}}" />
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="country"><strong>Country</strong></label>
+        <select class="form-control" name="country" id="country">
+          <option value="">Select Country</option>
+          {% for code, name in country_choices %}
+          <option value="{{code}}" {% if customer_details.country == code %}selected {% endif %}>{{name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <br />
+      <hr />
+      <div class="form-actions d-flex justify-content-between">
+        <a href="{% url 'view' %}" class="btn btn-danger">Discard</a>
+        <button type="submit" class="btn btn-primary" id="saveButton">
+          Save Changes
+        </button>
+      </div>
+    </form>
     {% endblock %}
   </body>
 </html>

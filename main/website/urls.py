@@ -11,5 +11,5 @@ urlpatterns = [
     path("bank-account/", views.bank_account, name="bankaccount"),
     path("assign-banker/", views.banker, name="banker"),
     path("view-customers/", views.customer_all, name="view"),
-    path("customer/<uuid:pk>/", views.view_customer, name="customer"),
+    path("customer/<uuid:pk>/", views.view_customer, name="edit-customer"),
 ]
