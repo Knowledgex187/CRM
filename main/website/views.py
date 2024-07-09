@@ -258,13 +258,13 @@ def view_customer(request, pk):
 
 @login_required(login_url="login")
 def customer_all(request):
-    customer = Customer.objects.all()
+    customers = Customer.objects.all()
 
     content = {
-        "customer": customer,
+        "customers": customers,
     }
 
-    return render(request, "customer-list.html", content)
+    return render(request, "customer-all.html", content)
 
 
 @login_required(login_url="login")
@@ -385,45 +385,9 @@ def banker(request):
 @login_required(login_url="login")
 def edit_profile(request):
     customers = Customer.objects.all()
-    selected_customer = None
-    form = None
+    pass
 
-    if request.method == "POST":
-        customer_id = request.POST.get("customer_id")
-        if customer_id:
-            selected_customer = get_object_or_404(Customer, uuid=customer_id)
-
-            form = CustomerForm(
-                request.POST, request.FILES, instance=selected_customer
-            )
-
-            if "delete-account" in request.POST:
-                selected_customer.delete()
-                messages.info(request, "Customer successfully deleted!")
-                return redirect(
-                    "edit"
-                )  # Redirect to a success page after deletion
-
-            if form.is_valid():
-                form.save()
-                messages.info(request, "Customer details updated!")
-                return redirect(
-                    "edit"
-                )  # Redirect to a success page after saving
-
-        else:
-            CustomerForm(request.POST, request.FILES)
-
-    if not form:
-        form = CustomerForm()
-
-    content = {
-        "customers": customers,
-        "form": form,
-        "selected_customer": selected_customer,
-    }
-
-    return render(request, "edit-profile.html", content)
+    return render(request, "edit-profile.html")
 
 
 @login_required(login_url="login")

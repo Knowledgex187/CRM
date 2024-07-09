@@ -29,16 +29,12 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbar">
           <div class="navbar-nav">
             {% if user.is_authenticated %}
-            <!-- Nav link for Logout -->
-            <a class="nav-item nav-link" id="logout" href="{% url 'logout' %}"
-              >Logout</a
+            <a class="nav-item nav-link" id="index" href="{% url 'profile' %}"
+              >Home</a
             >
             <a class="nav-item nav-link" id="accounts" href="#">Accounts</a>
             <a class="nav-item nav-link" id="transactions" href="#"
               >Transactions</a
-            >
-            <a class="nav-item nav-link" id="index" href="{% url 'profile' %}"
-              >Profile</a
             >
             <a class="nav-item nav-link" id="addCustomer" href="{% url 'add' %}"
               >Add Customer</a
@@ -51,6 +47,10 @@
             >
             <a class="nav-item nav-link" id="banker" href="{% url 'banker' %}"
               >Assign banker</a
+            >
+            <!-- Nav link for Logout -->
+            <a class="nav-item nav-link" id="logout" href="{% url 'logout' %}"
+              >Logout</a
             >
             {% else %}
             <!-- Nav link for login -->

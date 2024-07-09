@@ -33,18 +33,14 @@
           <a class="text-center mb-3" href="#">View Accounts</a>
         </div>
         <div class="card">
-          <h3 class="text-center mt-3">Recent Transactions</h3>
-          <p class="text-center">
-            View your recent transactions and track your spending.
-          </p>
-          <a class="text-center mb-3" href="#">View Transactions</a>
+          <h3 class="text-center mt-3">Customers List</h3>
+          <p class="text-center">View your entire customer database.</p>
+          <a class="text-center mb-3" href="{% url 'view' %}">View Customers</a>
         </div>
         <div class="card">
-          <h3 class="text-center mt-3">Profile Settings</h3>
-          <p class="text-center">
-            Update your personal information and manage your profile settings.
-          </p>
-          <a class="text-center mb-3" href="{% url 'edit' %}">Edit Profile</a>
+          <h3 class="text-center mt-3">Edit Customers</h3>
+          <p class="text-center">Update your customer information.</p>
+          <a class="text-center mb-3" href="{% url 'edit' %}">Edit Customers</a>
         </div>
       </div>
     </div>

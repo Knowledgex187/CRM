@@ -1,0 +1,30 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Customers List{% endblock %}</title>
+  </head>
+  <body>
+    {% block content %}
+    <link rel="stylesheet" href="{% static 'css/customer-all.css' %}" />
+    <h2 class="text-center mt-3">Customer List</h2>
+    <hr />
+    <div class="mt-5 customer-list offset-2">
+      {% for customer in customers %}
+      <div class="card" onclick="showModal(this)">
+        <div class="card-body">
+          <h5 class="card-title text-center">
+            {{customer.first_name}} {{customer.middle_name}}
+            {{customer.last_name}} ({{customer.dob}}) - {{customer.city}},
+            {{customer.country}}
+          </h5>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <script src="{% static '/js/script.js' %}"></script>
+    {% endblock %}
+  </body>
+</html>
