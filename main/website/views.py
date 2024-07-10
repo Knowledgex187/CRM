@@ -20,10 +20,15 @@ from django.contrib.auth.decorators import login_required
 
 SpecialSym = set("!£$%^&*()?@;:~`¬-=_+")
 
+"""Renders Home Page"""
+
 
 @login_required(login_url="login")
 def home(request):
     return render(request, "profile.html")
+
+
+"""Login Form"""
 
 
 def login_view(request):
@@ -41,6 +46,9 @@ def login_view(request):
             return redirect("login")
     else:
         return render(request, "login.html")
+
+
+"""Signup Form"""
 
 
 def signup(request):
@@ -122,6 +130,9 @@ def signup(request):
             return redirect("signup")
 
     return render(request, "signup.html")
+
+
+"""Add Customer"""
 
 
 @login_required(login_url="login")
@@ -244,6 +255,48 @@ def add(request):
     return render(request, "add-customer.html", content)
 
 
+"""Delete Customer"""
+
+
+@login_required(login_url="login")
+def delete_customer(request, pk):
+
+    customer_uuid = pk
+    customer = Customer.objects.get(uuid=customer_uuid)
+
+    customer.delete()
+    messages.info(
+        request,
+        f"{customer.first_name} {customer.last_name} has successfully been deleted!",
+    )
+    return redirect("view")
+
+
+"""Delete Confirmation"""
+
+
+@login_required(login_url="login")
+def delete_confirm(request, pk):
+    customer_uuid = pk
+    customer = Customer.objects.get(uuid=customer_uuid)
+    content = {
+        "customer": customer,
+    }
+
+    if request.method == "POST":
+        customer.delete()
+        messages.info(
+            request,
+            f"{customer.first_name} {customer.last_name} has successfully been deleted!",
+        )
+        return redirect("view")
+
+    return render(request, "delete-confirm.html", content)
+
+
+"""View & Edit Customer"""
+
+
 @login_required(login_url="login")
 def view_customer(request, pk):
     customer_uuid = pk
@@ -343,6 +396,9 @@ def view_customer(request, pk):
     return render(request, "customer-view.html", content)
 
 
+"""View all customers"""
+
+
 @login_required(login_url="login")
 def customer_all(request):
     customers = Customer.objects.all()
@@ -352,6 +408,9 @@ def customer_all(request):
     }
 
     return render(request, "customer-all.html", content)
+
+
+"""Bank Account Post form"""
 
 
 @login_required(login_url="login")
@@ -389,6 +448,10 @@ def bank_account(request):
             messages.info(request, "All fields required!")
             return redirect("bankaccount")
 
+        if BankAccount.objects.filter(account_number=account_number).exists():
+            messages.info(request, "Bank account number already exists!")
+            return redirect("bankaccount")
+
         if len(account_number) < 11 or not account_number.isdigit():
             messages.info(
                 request,
@@ -416,6 +479,9 @@ def bank_account(request):
         return redirect("banker")
 
     return render(request, "bank-account.html", content)
+
+
+"""Banker Post Form"""
 
 
 @login_required(login_url="login")
@@ -469,12 +535,65 @@ def banker(request):
     return render(request, "banker.html", content)
 
 
+"""Edit Banker Profile Form """
+
+
 @login_required(login_url="login")
 def edit_profile(request):
-    customers = Customer.objects.all()
-    pass
+    users = User.objects.all()
+    current_user = request.user
 
-    return render(request, "edit-profile.html")
+    content = {
+        "users": users,
+        "current_user": current_user,
+    }
+
+    if request.method == "POST":
+        first_name = request.POST.get("firstName", "").strip()
+        last_name = request.POST.get("lastName", "").strip()
+        active = request.POST.get("isActive", "").strip()
+        joined = request.POST.get("dateJoined", "").strip()
+        staff = request.POST.get("staff", "").strip()
+
+        if not all(
+            [
+                first_name,
+                last_name,
+                active,
+                joined,
+                staff,
+            ]
+        ):
+            messages.info(request, "All fields required!")
+            return redirect("edit")
+
+        if not (first_name.isalpha() and last_name.isalpha()):
+            messages.info(request, "Names must be characters only!")
+            return redirect("edit")
+
+        current_user.first_name = first_name
+        current_user.last_name = last_name
+        current_user.is_active = active
+        current_user.date_joined = joined
+        current_user.is_staff = staff
+        current_user.save()
+
+    return render(request, "edit-profile.html", content)
+
+
+"""Delete Profile"""
+
+
+def delete_profile(request):
+    user = User.objects.all()
+    current_user = user.request
+
+    user.delete(current_user)
+    messages.info(request, "User successfully deleted!")
+    return redirect("signup")
+
+
+"""Logout"""
 
 
 @login_required(login_url="login")

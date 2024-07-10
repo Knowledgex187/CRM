@@ -12,4 +12,18 @@ urlpatterns = [
     path("assign-banker/", views.banker, name="banker"),
     path("view-customers/", views.customer_all, name="view"),
     path("customer/<uuid:pk>/", views.view_customer, name="edit-customer"),
+    path(
+        "delete-customer/<uuid:pk>/",
+        views.delete_customer,
+        name="delete-customer",
+    ),
+    path("delete-profile/", views.delete_profile, name="delete-profile"),
+    path(
+        "confirm-delete/<uuid:pk>/",
+        views.delete_confirm,
+        name="delete-confirm",
+    ),
+    path(
+        "delete-confirm-profile/", views.delete_profile, name="delete-profile"
+    ),
 ]

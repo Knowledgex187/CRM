@@ -11,23 +11,45 @@
     <link rel="stylesheet" href="{% static 'css/customer-all.css' %}" />
     <h2 class="text-center mt-3">Customer List</h2>
     <hr />
+
+    <div>
+      <style>
+        h6 {
+          color: red;
+        }
+      </style>
+      {% for message in messages %}
+      <h6 class="text-center">{{message}}</h6>
+      {% endfor %}
+    </div>
+
     <div class="mt-5 customer-list offset-2">
       {% for customer in customers %}
-      <div
-        class="card"
-        onclick="location.href='{% url 'edit-customer' customer.uuid %}'">
+      <div class="card">
         <div class="card-body">
           <h5 class="card-title text-center">
             {{customer.first_name}} {{customer.middle_name}}
             {{customer.last_name}} ({{customer.dob}}) - {{customer.city}},
             {{customer.country}}
           </h5>
+          <div class="d-flex justify-content-end buttons">
+            <a
+              href="{% url 'edit-customer' customer.uuid %}"
+              class="btn btn-primary"
+              onclick="location.href='{% url 'edit-customer' customer.uuid %}'"
+              >Edit</a
+            >
+            <a
+              href="{% url 'delete-confirm' customer.uuid %}"
+              class="btn btn-danger"
+              >Delete</a
+            >
+          </div>
         </div>
       </div>
       {% endfor %}
     </div>
     <script src="{% static '/js/script.js' %}"></script>
-    <script src="{% static 'js/modal.js' %}"></script>
     {% endblock %}
   </body>
 </html>

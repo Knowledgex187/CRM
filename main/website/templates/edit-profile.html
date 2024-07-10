@@ -27,111 +27,77 @@
         <form class="col-4 justify-content-center container" action="POST">
           {% csrf_token %}
             <div class="form-group">
-            <select
-            class="form-control dropdown mt-3"
-            name="customer"
-            id="customer"
-            required>
-            <option value="">Customer</option>
-            {% for customer in customers %}
-            <option value="{{ customer.uuid }}">{{ customer.first_name }} {{ customer.last_name }}</option>
-            {% endfor %}
+              <select
+              class="dropdown form-control mt-5"
+              name="bankerName"
+              id="bankerName"
+              required>
+              <option value="{{current_user.id}}" selected>
+                {{current_user.first_name}} {{current_user.last_name}}
+              </option>
+            </select>
             </div>
 
-            <div class="form-group">
-            <label class="m-3" for="email"> Email Address</label>
-            <input
-              type="email"
-              class="form-control mt-3"
-              id="email"
-              name="email"
-              placeholder="Enter Email" />
-              </div>
-
               <div class="form-group">
-                <label class="m-3" for="firstName"> First Name</label>
+                <label class="m-3" for="firstName"><strong>First Name</strong></label>
                 <input
                   type="text"
                   class="form-control"
                   id="firstName"
                   name="firstName"
                   placeholder="Enter First Name"
-                  required />
+                  value="{{current_user.first_name}}"/>
               </div>
+
               <div class="form-group">
-                <label class="m-3" for="middleName"> Middle Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="middleName"
-                  name="middleName"
-                  placeholder="Enter Middle Name" />
-              </div>
-              <div class="form-group">
-                <label class="m-3" for="lastName"> Last Name</label>
+                <label class="m-3" for="lastName"><strong>Last Name</strong></label>
                 <input
                   type="text"
                   class="form-control"
                   id="lastName"
                   name="lastName"
                   placeholder="Enter Last Name"
-                  required />
+                  value="{{current_user.last_name}}"/>
               </div>
+
               <div class="form-group">
-                <label class="m-3" for="phoneNumber"> Phone Number</label>
-                <input
-                  type="tel"
-                  class="form-control"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  placeholder="Enter Phone Number"
-                  required />
-              </div>
-              <div class="form-group">
-                <label class="m-3" for="streetAddress"> Street Address</label>
+                <label class="m-3" for="isActive"><strong>Active</strong></label>
                 <input
                   type="text"
                   class="form-control"
-                  id="streetAddress"
-                  name="streetAddress"
-                  placeholder="Enter Address"
-                  required />
+                  id="isActive"
+                  name="isActive"
+                  value="{{current_user.is_active}}"
+                  disabled />
               </div>
+
               <div class="form-group">
-                <label class="m-3" for="city">City</label>
+                <label class="m-3" for="dateJoined"><strong>Date Joined</strong></label>
                 <input
                   type="text"
                   class="form-control"
-                  id="city"
-                  name="city"
-                  placeholder="Enter City"
-                  required />
+                  id="dateJoined"
+                  name="dateJoined"
+                  value="{{current_user.date_joined}}"
+                  disabled />
               </div>
+
               <div class="form-group">
-                <label class="m-3" for="post_code_or_zip"> Zip / Post Code</label>
+                <label class="m-3" for="staff"><strong>Staff</strong></label>
                 <input
                   type="text"
                   class="form-control"
-                  id="post_code_or_zip"
-                  name="post_code_or_zip"
-                  placeholder="Enter Zip/Post Code"
-                  required />
+                  id="staff"
+                  name="staff"
+                  value="{{current_user.is_staff}}"
+                  disabled/>
               </div>
-              <div class="form-group">
-                <label class="m-3" for="country">Country</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="country"
-                  name="country"
-                  placeholder="Enter Country"
-                  required />
-              </div>
+
               <br />
               <button type="submit" class="btn btn-primary">Submit</button>
               <hr>
               <div class="d-grid gap-2 col-6 mx-auto">
-              <button name="delete-account" type="submit" class="btn btn-danger mt-5">Delete Account</button>
+              <a href="{% url 'detele-profile-confirm' %}" name="delete-account" class="btn btn-danger mt-5">Delete Account</a>
             </div>
         </form>
         <script src="{% static 'js/edit.js' %}"></script>

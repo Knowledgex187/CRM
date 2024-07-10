@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Knowledge" />
+    <meta name="description" content="CRM Application" />
+    <title>{% block title %}Confirm Delete {%endblock %}</title>
+  </head>
+
+  {% block content %}
+  <link rel="stylesheet" href="{% static 'css/delete.css' %}" />
+  <body>
+    <div class="delete-container container mt-5">
+      <h3>
+        Are you sure you want to delete {{ customer.first_name }}
+        {{customer.last_name }}?
+      </h3>
+      <form method="POST">
+        {% csrf_token %}
+        <a
+          href="{% url 'delete-customer' customer.uuid %}"
+          class="btn btn-danger">
+          Confirm Delete
+        </a>
+        <a href="{% url 'view' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </body>
+
+  {% endblock %}
+</html>
