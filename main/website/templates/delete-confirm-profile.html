@@ -13,10 +13,15 @@
   <link rel="stylesheet" href="{% static 'css/delete.css' %}" />
   <body>
     <div class="delete-container container mt-5">
-      <h3>Are you sure you want to delete your profile?</h3>
+      <h3>
+        Are you sure you want to delete {{current_user.first_name}}
+        {{current_user.last_name}} ?
+      </h3>
       <form method="POST">
         {% csrf_token %}
-        <a href="#" class="btn btn-danger"> Confirm Delete </a>
+        <a href="{% url 'delete-profile' %}" class="btn btn-danger">
+          Confirm Delete
+        </a>
         <a href="{% url 'edit' %}" class="btn btn-secondary">Cancel</a>
       </form>
     </div>

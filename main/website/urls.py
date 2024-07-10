@@ -24,6 +24,13 @@ urlpatterns = [
         name="delete-confirm",
     ),
     path(
-        "delete-confirm-profile/", views.delete_profile, name="delete-profile"
+        "delete-profile/",
+        views.delete_profile,
+        name="delete-profile",
+    ),
+    path(
+        "delete-confirm/",
+        views.delete_confirm_profile,
+        name="delete-profile-confirm",
     ),
 ]

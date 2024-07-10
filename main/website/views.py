@@ -589,8 +589,29 @@ def delete_profile(request):
     current_user = user.request
 
     user.delete(current_user)
-    messages.info(request, "User successfully deleted!")
+    messages.info(
+        request,
+        f"{current_user.first_name} {current_user.last_name} has successfully been deleted!",
+    )
     return redirect("signup")
+
+
+def delete_confirm_profile(request):
+    current_user = request.user
+
+    content = {
+        "current_user": current_user,
+    }
+
+    if request.method == "POST":
+        current_user.delete()
+        messages.info(
+            request,
+            f"{current_user.first_name} {current_user.last_name} has successfully been deleted!",
+        )
+        return redirect("signup")
+
+    return render(request, "delete-confirm-profile.html", content)
 
 
 """Logout"""
