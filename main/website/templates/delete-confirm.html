@@ -19,10 +19,16 @@
       </h3>
       <form method="POST">
         {% csrf_token %}
-        <a href="{% url 'view' %}" class="btn btn-secondary">Cancel</a>
+        <a
+          href="{% url 'view' %}"
+          class="btn btn-secondary btn-rounded"
+          data-mdb-ripple-init
+          >Cancel</a
+        >
         <a
           href="{% url 'delete-customer' customer.uuid %}"
-          class="btn btn-danger">
+          class="btn btn-danger btn-rounded"
+          data-mdb-ripple-init>
           Confirm Delete
         </a>
       </form>
