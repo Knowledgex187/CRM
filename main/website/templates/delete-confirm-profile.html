@@ -21,13 +21,13 @@
         {% csrf_token %}
         <a
           href="{% url 'edit' %}"
-          class="btn btn-secondary btn-rounded"
+          class="btn btn-secondary rounded-pill"
           data-mdb-ripple-init
           >Cancel</a
         >
         <a
           href="{% url 'delete-profile' %}"
-          class="btn btn-danger btn-rounded"
+          class="btn btn-danger rounded-pill"
           data-mdb-ripple-init>
           Confirm Delete
         </a>
