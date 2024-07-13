@@ -33,4 +33,6 @@ urlpatterns = [
         views.delete_confirm_profile,
         name="delete-profile-confirm",
     ),
+    path("search/", views.search_customer, name="search"),
+    path("accounts-list/", views.search_accounts, name="accounts"),
 ]

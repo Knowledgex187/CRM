@@ -5,10 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Customers List{% endblock %}</title>
+    <!-- Include jQuery (or you can use plain JavaScript) -->
+    <script src="{% static 'js/table.js' %}"></script>
   </head>
   <body>
     {% block content %}
     <link rel="stylesheet" href="{% static 'css/customer-all.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/table.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css" />
     <h2 class="text-center mt-3">Customer List</h2>
     <hr />
 
@@ -19,37 +26,172 @@
         }
       </style>
       {% for message in messages %}
-      <h6 class="text-center">{{message}}</h6>
+      <h6 class="text-center">{{ message }}</h6>
       {% endfor %}
     </div>
 
-    <div class="mt-5 customer-list offset-2">
-      {% for customer in customers %}
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title text-center">
-            {{customer.first_name}} {{customer.middle_name}}
-            {{customer.last_name}} ({{customer.dob}}) - {{customer.city}},
-            {{customer.country}}
-          </h5>
-          <div class="d-flex justify-content-end buttons">
-            <a
-              href="{% url 'edit-customer' customer.uuid %}"
-              class="btn btn-primary"
-              onclick="location.href='{% url 'edit-customer' customer.uuid %}'"
-              >Edit</a
-            >
-            <a
-              href="{% url 'delete-confirm' customer.uuid %}"
-              class="btn btn-danger"
-              >Delete</a
-            >
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    <script src="{% static '/js/script.js' %}"></script>
+    <form id="searchForm" action="{% url 'search' %}" method="GET">
+      <table class="display container-fluid mt-5">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>DOB</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Street Address</th>
+            <th>City</th>
+            <th>Post / Zip Code</th>
+            <th>Country</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+          <tr>
+            <th>
+              <input
+                type="text"
+                id="searchId"
+                placeholder="Search ID"
+                class="form-control form-control-sm"
+                name="uuid"
+                value="{{ request.GET.uuid }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchFirstName"
+                placeholder="Search First Name"
+                class="form-control form-control-sm"
+                name="firstName"
+                value="{{ request.GET.firstName }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchMiddleName"
+                placeholder="Search Middle Name"
+                class="form-control form-control-sm"
+                name="middleName"
+                value="{{ request.GET.middleName }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchLastName"
+                placeholder="Search Last Name"
+                class="form-control form-control-sm"
+                name="lastName"
+                value="{{ request.GET.lastName }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchDob"
+                placeholder="Search DOB"
+                class="form-control form-control-sm"
+                name="dob"
+                value="{{ request.GET.dob }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchPhone"
+                placeholder="Search Phone"
+                class="form-control form-control-sm"
+                name="phone"
+                value="{{ request.GET.phone }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchEmail"
+                placeholder="Search Email"
+                class="form-control form-control-sm"
+                name="email"
+                value="{{ request.GET.email }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchAddress"
+                placeholder="Search Address"
+                class="form-control form-control-sm"
+                name="address"
+                value="{{ request.GET.address }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchCity"
+                placeholder="Search City"
+                class="form-control form-control-sm"
+                name="city"
+                value="{{ request.GET.city }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchZip"
+                placeholder="Search Zip"
+                class="form-control form-control-sm"
+                name="zip"
+                value="{{ request.GET.zip }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchCountry"
+                placeholder="Search Country"
+                class="form-control form-control-sm"
+                name="country"
+                value="{{ request.GET.country }}" />
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for customer in customers %}
+          <tr>
+            <td>{{customer.uuid}}</td>
+            <td>{{customer.first_name}}</td>
+            <td>{{customer.middle_name}}</td>
+            <td>{{customer.last_name}}</td>
+            <td>{{customer.dob}}</td>
+            <td>{{customer.phone_number}}</td>
+            <td>{{customer.email}}</td>
+            <td>{{customer.street_address}}</td>
+            <td>{{customer.city}}</td>
+            <td>{{customer.post_code_or_zip}}</td>
+            <td>{{customer.country}}</td>
+            <td>
+              <a
+                href="{% url 'edit-customer' customer.uuid %}"
+                class="btn btn-primary"
+                >Edit</a
+              >
+            </td>
+            <td>
+              <a
+                href="{% url 'delete-confirm' customer.uuid %}"
+                class="btn btn-danger"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="{% static 'js/table.js' %}"></script>
     {% endblock %}
   </body>
 </html>

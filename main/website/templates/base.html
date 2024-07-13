@@ -30,9 +30,11 @@
             <a class="nav-item nav-link" id="index" href="{% url 'profile' %}"
               >Home</a
             >
-            <a class="nav-item nav-link" id="accounts" href="#">Accounts</a>
-            <a class="nav-item nav-link" id="transactions" href="#"
-              >Transactions</a
+            <a
+              class="nav-item nav-link"
+              id="accounts"
+              href="{% url 'accounts' %}"
+              >Accounts</a
             >
             <a class="nav-item nav-link" id="addCustomer" href="{% url 'add' %}"
               >Add Customer</a

@@ -1,0 +1,133 @@
+{% extends 'base.html' %}{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Customers List{% endblock %}</title>
+    <!-- Include jQuery (or you can use plain JavaScript) -->
+    <script src="{% static 'js/accounts-table.js' %}"></script>
+  </head>
+  <body>
+    {% block content %}
+    <link rel="stylesheet" href="{% static 'css/customer-all.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/table.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css" />
+    <h2 class="text-center mt-3">Accounts List</h2>
+    <hr />
+
+    <div>
+      <style>
+        h6 {
+          color: red;
+        }
+      </style>
+      {% for message in messages %}
+      <h6 class="text-center">{{ message }}</h6>
+      {% endfor %}
+    </div>
+
+    <form id="searchForm" action="{% url 'accounts' %}" method="GET">
+      <table class="display container-fluid mt-5">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Account Number</th>
+            <th>Account Type</th>
+            <th>Balance</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+          <tr>
+            <th>
+              <input
+                type="text"
+                id="customerId"
+                placeholder="Search Customer"
+                class="form-control form-control-sm"
+                name="customer"
+                value="{{ request.GET.customer }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchAccountNumber"
+                placeholder="Search Account Number"
+                class="form-control form-control-sm"
+                name="accountNumber"
+                value="{{ request.GET.account_number }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchAccountType"
+                placeholder="Search Account type"
+                class="form-control form-control-sm"
+                name="accountType"
+                value="{{ request.GET.account_type }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchbalance"
+                placeholder="Search Balance"
+                class="form-control form-control-sm"
+                name="balance"
+                value="{{ request.GET.balance }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchCreated"
+                placeholder="Search Created At"
+                class="form-control form-control-sm"
+                name="created"
+                value="{{ request.GET.created_at }}" />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="searchUpdate"
+                placeholder="Search Update"
+                class="form-control form-control-sm"
+                name="update"
+                value="{{ request.GET.updated_at }}" />
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for account in accounts %}
+          <tr>
+            <td>{{account.customer}}</td>
+            <td>{{account.account_number}}</td>
+            <td>{{account.account_type}}</td>
+            <td>{{account.balance}}</td>
+            <td>{{account.created_at}}</td>
+            <td>{{account.updated_at}}</td>
+            <td>
+              <a href="#" class="btn btn-primary">Edit</a>
+            </td>
+            <td>
+              <a href="#" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    {% endblock %}
+  </body>
+</html>

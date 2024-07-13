@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 
 from django.contrib.auth.models import User
 
@@ -14,6 +14,8 @@ from django.core.validators import validate_email
 from django.contrib.auth import authenticate, login, logout as auth_logout
 
 from django.contrib.auth.decorators import login_required
+
+from django.db.models import Q
 
 
 # Create your views here.
@@ -584,11 +586,11 @@ def edit_profile(request):
 """Delete Profile"""
 
 
+@login_required(login_url="login")
 def delete_profile(request):
-    user = User.objects.all()
-    current_user = user.request
 
-    user.delete(current_user)
+    current_user = request.user
+    current_user.delete()
     messages.info(
         request,
         f"{current_user.first_name} {current_user.last_name} has successfully been deleted!",
@@ -596,14 +598,11 @@ def delete_profile(request):
     return redirect("signup")
 
 
+@login_required(login_url="login")
 def delete_confirm_profile(request):
-    current_user = request.user
-
-    content = {
-        "current_user": current_user,
-    }
 
     if request.method == "POST":
+        current_user = request.user
         current_user.delete()
         messages.info(
             request,
@@ -611,7 +610,90 @@ def delete_confirm_profile(request):
         )
         return redirect("signup")
 
-    return render(request, "delete-confirm-profile.html", content)
+    return render(request, "delete-confirm-profile.html")
+
+
+@login_required(login_url="login")
+def search_customer(request):
+    customers = Customer.objects.all()
+    if request.method == "GET":
+        uuid = request.GET.get("uuid", "").strip()
+        first_name = request.GET.get("firstName", "").strip()
+        middle_name = request.GET.get("middleName", "").strip()
+        last_name = request.GET.get("lastName", "").strip()
+        dob = request.GET.get("dob", "").strip()
+        phone_number = request.GET.get("phone", "").strip()
+        email = request.GET.get("email", "").strip()
+        street_address = request.GET.get("address", "").strip()
+        city = request.GET.get("city", "").strip()
+        post_code_or_zip = request.GET.get("zip", "").strip()
+        country = request.GET.get("country", "").strip()
+
+        filters = Q()
+        if uuid:
+            filters &= Q(uuid__icontains=uuid)
+        if first_name:
+            filters &= Q(first_name__icontains=first_name)
+        if middle_name:
+            filters &= Q(middle_name__icontains=middle_name)
+        if last_name:
+            filters &= Q(last_name__icontains=last_name)
+        if dob:
+            filters &= Q(dob__icontains=dob)
+        if phone_number:
+            filters &= Q(phone_number__icontains=phone_number)
+        if email:
+            filters &= Q(email__icontains=email)
+        if street_address:
+            filters &= Q(street_address__icontains=street_address)
+        if city:
+            filters &= Q(city__icontains=city)
+        if post_code_or_zip:
+            filters &= Q(post_code_or_zip__icontains=post_code_or_zip)
+        if country:
+            filters &= Q(country__icontains=country)
+
+            customers = Customer.objects.filter(filters)
+
+        content = {"customers": customers}
+        return render(request, "customer-all.html", content)
+
+
+def search_accounts(request):
+    accounts = BankAccount.objects.all()
+    if request.method == "GET":
+        customer = request.GET.get("customer", "").strip()
+        account_number = request.GET.get("accountNumber", "").strip()
+        account_type = request.GET.get("accountType", "").strip()
+        balance = request.GET.get("balance", "").strip()
+        created_at = request.GET.get("created", "").strip()
+        updated_at = request.GET.get("update", "").strip()
+
+        filters = Q()
+
+        if customer:
+            filters &= Q(customer__icontains=customer)
+
+        if account_number:
+            filters &= Q(account_number__icontains=account_number)
+
+        if account_type:
+            filters &= Q(account_type__icontains=account_type)
+
+        if balance:
+            filters &= Q(balance__icontains=balance)
+
+        if created_at:
+            filters &= Q(created_at__icontains=created_at)
+
+        if updated_at:
+            filters &= Q(updated_at__icontains=updated_at)
+
+            accounts = BankAccount.objects.filter(filters)
+
+        content = {"accounts": accounts}
+
+        return render(request, "accounts.html", content)
 
 
 """Logout"""
