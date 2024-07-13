@@ -250,6 +250,7 @@ class BankAccount(models.Model):
             "P.O. BOX 802 Grand Cayman KY1-1100 CAYMAN ISLANDS",
         ),
     ]
+
     account_number = models.CharField(max_length=20, unique=True)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name="bank_accounts"
