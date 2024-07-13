@@ -31,38 +31,64 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbar">
           <div class="navbar-nav">
             {% if user.is_authenticated %}
-            <a class="nav-item nav-link" id="index" href="{% url 'profile' %}"
+            <a
+              class="nav-item nav-link btn btn-primary me-3"
+              id="index"
+              href="{% url 'profile' %}"
+              data-mdb-ripple-init
               >Home</a
             >
             <a
-              class="nav-item nav-link"
+              class="nav-item nav-link btn btn-primary me-3"
               id="accounts"
               href="{% url 'accounts' %}"
+              data-mdb-ripple-init
               >Accounts</a
             >
-            <a class="nav-item nav-link" id="addCustomer" href="{% url 'add' %}"
+            <a
+              class="nav-item nav-link btn btn-primary me-3"
+              id="addCustomer"
+              href="{% url 'add' %}"
+              data-mdb-ripple-init
               >Add Customer</a
             >
             <a
-              class="nav-item nav-link"
+              class="nav-item nav-link btn btn-primary me-3"
               id="addBankDetails"
               href="{% url 'bankaccount' %}"
+              data-mdb-ripple-init
               >Add Bank Details</a
             >
-            <a class="nav-item nav-link" id="banker" href="{% url 'banker' %}"
+            <a
+              class="nav-item nav-link btn btn-primary me-3"
+              id="banker"
+              href="{% url 'banker' %}"
+              data-mdb-ripple-init
               >Assign banker</a
             >
             <!-- Nav link for Logout -->
-            <a class="nav-item nav-link" id="logout" href="{% url 'logout' %}"
+            <a
+              class="nav-item nav-link btn btn-primary me-3"
+              id="logout"
+              href="{% url 'logout' %}"
+              data-mdb-ripple-init
               >Logout</a
             >
             {% else %}
             <!-- Nav link for login -->
-            <a class="nav-item nav-link" id="login" href="{% url 'login' %}"
+            <a
+              class="nav-item nav-link btn btn-primary me-3"
+              id="login"
+              href="{% url 'login' %}"
+              data-mdb-ripple-init
               >Login</a
             >
             <!-- Nav link for Sign Up -->
-            <a class="nav-item nav-link" id="sign-up" href="{% url 'signup' %}"
+            <a
+              class="nav-item nav-link btn btn-primary me-3"
+              id="sign-up"
+              href="{% url 'signup' %}"
+              data-mdb-ripple-init
               >Sign Up</a
             >
             {% endif %}

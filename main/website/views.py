@@ -27,7 +27,13 @@ SpecialSym = set("!£$%^&*()?@;:~`¬-=_+")
 
 @login_required(login_url="login")
 def home(request):
-    return render(request, "profile.html")
+    current_user = request.user
+
+    content = {
+        "current_user": current_user,
+    }
+
+    return render(request, "profile.html", content)
 
 
 """Login Form"""
