@@ -1,4 +1,5 @@
 {% extends 'base.html' %}{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,88 +7,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Add Bank Details{% endblock %}</title>
   </head>
+
   <body>
     {% block content %}
 
-    <link rel="stylesheet" href="{% static 'css/account.css' %}" />
-    <form
-      class="justify-content-center add-container mt-5 col-4 mx-auto"
-      method="POST">
+    <div>
+      <style>
+        h6 {
+          color: red;
+        }
+      </style>
+      {% for message in messages %}
+      <h6 class="text-center">{{message}}</h6>
+      {% endfor %}
+    </div>
+
+    <form method="POST" class="vh-300" style="background-color: #151e9e">
       {% csrf_token %}
-      <h3 class="text-center">Add Customer Bank Details</h3>
-      <div>
-        <style>
-          h6 {
-            color: red;
-          }
-        </style>
-        {% for message in messages %}
-        <h6>{{message}}</h6>
-        {% endfor %}
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col col-xl-10">
+            <div class="card" style="border-radius: 1rem">
+              <div class="row g-0">
+                <div class="col-md-6 col-lg-5 d-none d-md-block"></div>
+                <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                  <div class="card-body p-4 p-lg-5 text-black">
+                    <form>
+                      <div class="d-flex align-items-center mb-3 pb-1">
+                        <img src="{% static 'images/logo.png' %}" alt="logo" />
+                      </div>
+
+                      <h5
+                        class="fw-normal mb-3 pb-3"
+                        style="letter-spacing: 1px">
+                        <strong>Add Customer Bank Details</strong>
+                      </h5>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label for="customer" class="m-3"
+                          ><strong>Customer</strong></label
+                        >
+                        <select
+                          class="form-control dropdown"
+                          name="customer"
+                          id="customer"
+                          required>
+                          <option value="">------------------</option>
+                          {% for customer in customers %}
+                          <option value="{{ customer.uuid }}">
+                            {{ customer.first_name }} {{ customer.last_name }}
+                          </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="account"
+                          ><strong>Account Type</strong></label
+                        >
+                        <select
+                          class="form-control dropdown"
+                          name="account"
+                          id="account"
+                          required>
+                          <option value="">Select Account</option>
+                          {% for code, name in account_type %}
+                          <option value="{{code}}">{{name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="bankName"
+                          ><strong>Bank Name :</strong></label
+                        >
+                        <select name="bankName" id="bankName" required>
+                          {% for code, name in bank_name %}
+                          <option value="{{code}}">{{name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="bankAddress"
+                          ><strong>Bank Address</strong></label
+                        >
+                        <select name="bankAddress" id="bankAddress" required>
+                          {% for code, name in bank_address %}
+                          <option value="{{code}}">{{name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="accountNumber"
+                          ><strong>Account Number</strong></label
+                        >
+                        <input
+                          type="tel"
+                          id="accountNumber"
+                          name="accountNumber"
+                          class="form-control form-control-lg" />
+                      </div>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="balance"
+                          ><strong>Balance</strong></label
+                        >
+                        <input
+                          type="tel"
+                          id="balance"
+                          name="balance"
+                          class="form-control form-control-lg" />
+                      </div>
+
+                      <br />
+                      <button type="submit" class="btn btn-primary">
+                        Add Account Details
+                      </button>
+                      <br />
+                      <br />
+                      <a href="#!" class="small text-muted mt-5"
+                        >Terms of use.</a
+                      >
+                      <a href="#!" class="small text-muted">Privacy policy</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="customer" class="m-3"><strong>Customer</strong></label>
-        <select
-          class="form-control dropdown"
-          name="customer"
-          id="customer"
-          required>
-          <option value="">------------------</option>
-          {% for customer in customers %}
-          <option value="{{ customer.uuid }}">{{ customer.first_name }} {{ customer.last_name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <label class="m-3" for="account"><strong>Account Type</strong></label>
-        <select
-          class="form-control dropdown"
-          name="account"
-          id="account"
-          required>
-          <option value="">Select Account</option>
-          {% for code, name in account_type %}
-          <option value="{{code}}">{{name}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="m-3" for="bankName"><strong>Bank Name :</strong></label>
-        <select name="bankName" id="bankName" required>
-          {% for code, name in bank_name %}
-          <option value="{{code}}">{{name}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="m-3" for="bankAddress"><strong>Bank Address :</strong></label>
-        <select name="bankAddress" id="bankAddress" required>
-          {% for code, name in bank_address %}
-          <option value="{{code}}">{{name}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="m-3" for="accountNumber"><strong>Account Number</strong></label>
-        <input
-          type="tel"
-          class="form-control"
-          id="accountNumber"
-          name="accountNumber"
-          placeholder="Enter Account Number"
-          required />
-      </div>
-      <div class="form-group">
-        <label class="m-3" for="balance"><strong>Balance</strong></label>
-        <input
-          type="tel"
-          class="form-control"
-          id="balance"
-          name="balance"
-          placeholder="Enter Account balance"
-          required />
-      </div>
-      <br />
-      <button type="submit" class="btn btn-primary">Add Account Details</button>
     </form>
     {% endblock %}
   </body>
