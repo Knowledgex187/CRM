@@ -34,19 +34,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (filterValues.customer && !cells[0].textContent.toLowerCase().includes(filterValues.customer)) {
                 showRow = false;
             }
-            if (filterValues.account_number && !cells[1].textContent.toLowerCase().includes(filterValues.account_number)) {
+            if (filterValues.accountNumber && !cells[1].textContent.toLowerCase().includes(filterValues.accountNumber)) {
                 showRow = false;
             }
-            if (filterValues.account_type && !cells[2].textContent.toLowerCase().includes(filterValues.account_type)) {
+            if (filterValues.accountType && !cells[2].textContent.toLowerCase().includes(filterValues.accountType)) {
                 showRow = false;
             }
             if (filterValues.balance && !cells[3].textContent.toLowerCase().includes(filterValues.balance)) {
                 showRow = false;
             }
-            if (filterValues.created_at && !cells[4].textContent.toLowerCase().includes(filterValues.created_at)) {
+            if (filterValues.created && !cells[4].textContent.toLowerCase().includes(filterValues.created)) {
                 showRow = false;
             }
-            if (filterValues.updated_at && !cells[5].textContent.toLowerCase().includes(filterValues.updated_at)) {
+            if (filterValues.update && !cells[5].textContent.toLowerCase().includes(filterValues.update)) {
                 showRow = false;
             }
 

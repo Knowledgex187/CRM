@@ -16,7 +16,20 @@ class CustomerAdmin(admin.ModelAdmin):
     )
 
 
+class BankAccountAdmin(admin.ModelAdmin):
+    list_display = (
+        "customer",
+        "bank_name",
+        "bank_address",
+        "account_number",
+        "account_type",
+        "balance",
+        "created_at",
+        "updated_at",
+    )
+
+
 # Register your models here.
 admin.site.register(Customer, CustomerAdmin)
-admin.site.register(BankAccount)
+admin.site.register(BankAccount, BankAccountAdmin)
 admin.site.register(Banker)

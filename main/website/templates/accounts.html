@@ -40,7 +40,6 @@
             <th>Balance</th>
             <th>Created</th>
             <th>Updated</th>
-            <th>Edit</th>
             <th>Delete</th>
           </tr>
           <tr>
@@ -99,7 +98,6 @@
                 value="{{ request.GET.updated_at }}" />
             </th>
             <th></th>
-            <th></th>
           </tr>
         </thead>
 
@@ -113,9 +111,6 @@
             <td>{{account.created_at}}</td>
             <td>{{account.updated_at}}</td>
             <td>
-              <a href="#" class="btn btn-primary">Edit</a>
-            </td>
-            <td>
               <a href="#" class="btn btn-danger">Delete</a>
             </td>
           </tr>
@@ -128,6 +123,7 @@
       type="text/javascript"
       charset="utf8"
       src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="{% static 'js/accounts-table.js' %}"></script>
     {% endblock %}
   </body>
 </html>

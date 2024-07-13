@@ -35,4 +35,9 @@ urlpatterns = [
     ),
     path("search/", views.search_customer, name="search"),
     path("accounts-list/", views.search_accounts, name="accounts"),
+    path(
+        "confirm-delete-account/<uuid:pk>/",
+        views.delete_account,
+        name="delete-account-confirm",
+    ),
 ]

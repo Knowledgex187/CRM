@@ -296,6 +296,17 @@ def delete_confirm(request, pk):
     return render(request, "delete-confirm.html", content)
 
 
+def delete_account(request, pk):
+    account_uuid = pk
+
+    account = BankAccount.objects.get(uuid=account_uuid)
+
+    content = {
+        "account": account,
+    }
+    return render(request, "delete-confirm-account.html", content)
+
+
 """View & Edit Customer"""
 
 
@@ -659,6 +670,7 @@ def search_customer(request):
         return render(request, "customer-all.html", content)
 
 
+@login_required(login_url="login")
 def search_accounts(request):
     accounts = BankAccount.objects.all()
     if request.method == "GET":
@@ -691,7 +703,9 @@ def search_accounts(request):
 
             accounts = BankAccount.objects.filter(filters)
 
-        content = {"accounts": accounts}
+        content = {
+            "accounts": accounts,
+        }
 
         return render(request, "accounts.html", content)
 
