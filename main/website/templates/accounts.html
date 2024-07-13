@@ -37,7 +37,7 @@
             <th>Customer</th>
             <th>Account Number</th>
             <th>Account Type</th>
-            <th>Balance</th>
+            <th>Balance ($)</th>
             <th>Created</th>
             <th>Updated</th>
             <th>Delete</th>
@@ -104,14 +104,18 @@
         <tbody>
           {% for account in accounts %}
           <tr>
-            <td>{{account.customer}}</td>
             <td>{{account.account_number}}</td>
             <td>{{account.account_type}}</td>
+            <td>{{account.customer}}</td>
             <td>{{account.balance}}</td>
             <td>{{account.created_at}}</td>
             <td>{{account.updated_at}}</td>
             <td>
-              <a href="#" class="btn btn-danger">Delete</a>
+              <a
+                href="{% url 'delete-account-confirm' account.account_number %}"
+                class="btn btn-danger"
+                >Delete</a
+              >
             </td>
           </tr>
           {% endfor %}

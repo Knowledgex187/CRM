@@ -19,12 +19,12 @@
       </h3>
       <form method="POST">
         {% csrf_token %}
+        <a href="{% url 'view' %}" class="btn btn-secondary">Cancel</a>
         <a
           href="{% url 'delete-customer' customer.uuid %}"
           class="btn btn-danger">
           Confirm Delete
         </a>
-        <a href="{% url 'view' %}" class="btn btn-secondary">Cancel</a>
       </form>
     </div>
   </body>

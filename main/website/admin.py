@@ -18,10 +18,10 @@ class CustomerAdmin(admin.ModelAdmin):
 
 class BankAccountAdmin(admin.ModelAdmin):
     list_display = (
+        "account_number",
         "customer",
         "bank_name",
         "bank_address",
-        "account_number",
         "account_type",
         "balance",
         "created_at",

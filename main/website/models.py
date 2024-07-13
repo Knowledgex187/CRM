@@ -250,6 +250,7 @@ class BankAccount(models.Model):
             "P.O. BOX 802 Grand Cayman KY1-1100 CAYMAN ISLANDS",
         ),
     ]
+    account_number = models.CharField(max_length=20, unique=True)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name="bank_accounts"
     )
@@ -257,7 +258,6 @@ class BankAccount(models.Model):
         max_length=255, choices=BANK_NAME, default="IBF"
     )
     bank_address = models.TextField(choices=BANK_ADDRESS)
-    account_number = models.CharField(max_length=20, unique=True)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES)
     balance = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)

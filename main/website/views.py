@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.models import User
 
@@ -296,10 +296,17 @@ def delete_confirm(request, pk):
     return render(request, "delete-confirm.html", content)
 
 
-def delete_account(request, pk):
-    account_uuid = pk
+def delete_account_confirm(request, account_number):
+    account_number = account_number
 
-    account = BankAccount.objects.get(uuid=account_uuid)
+    account = BankAccount.objects.get(account_number=account_number)
+
+    if request.method == "POST":
+        account.delete()
+        messages.info(
+            request, f"Account {account_number} has been successfully deleted!"
+        )
+        return redirect("accounts")
 
     content = {
         "account": account,

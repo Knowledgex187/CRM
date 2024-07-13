@@ -14,13 +14,13 @@
   <body>
     <div class="delete-container container mt-5">
       <h3>
-        Are you sure you want to delete the {{account.account_type}} for
-        {{account.customer}} ?
+        Are you sure you want to delete the {{account.account_type}} account
+        {{account.account_number}} for {{account.customer}} ?
       </h3>
       <form method="POST">
         {% csrf_token %}
-        <a href="#" class="btn btn-danger"> Confirm Delete </a>
         <a href="{% url 'accounts' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
       </form>
     </div>
   </body>

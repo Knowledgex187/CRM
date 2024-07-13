@@ -36,8 +36,8 @@ urlpatterns = [
     path("search/", views.search_customer, name="search"),
     path("accounts-list/", views.search_accounts, name="accounts"),
     path(
-        "confirm-delete-account/<uuid:pk>/",
-        views.delete_account,
+        "delete-account-confirm/<str:account_number>/",
+        views.delete_account_confirm,
         name="delete-account-confirm",
     ),
 ]
