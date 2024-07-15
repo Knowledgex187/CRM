@@ -216,10 +216,10 @@ def add(request):
             return redirect("add")
 
         # Phone number parameters
-        if not phone_number.isdigit() or len(phone_number) < 7:
+        if len(phone_number) < 7:
             messages.info(
                 request,
-                "Phone number must be numerical values only, and be more than 6 digits!",
+                "Phone number must be more than 6 digits!",
             )
             return redirect("add")
 
@@ -374,10 +374,10 @@ def view_customer(request, pk):
             return redirect("edit-customer", pk=pk)
 
         # Phone number parameters
-        if not phone_number.isdigit() or len(phone_number) < 7:
+        if len(phone_number) < 7:
             messages.info(
                 request,
-                "Phone number must be numerical values only, and be more than 6 digits!",
+                "Phone number must be more than 6 digits!",
             )
             return redirect("edit-customer", pk=pk)
 
